@@ -16,84 +16,109 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "../hooks/useForm";
 import SendIcon from "@mui/icons-material/Send";
 import KeyIcon from "@mui/icons-material/Key";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import axios from "axios";
 import { useReducer } from "react";
+import { blue } from "@mui/material/colors";
 
-const initialState = { loading: false, errorMsg: "", error: null };
+const nombreRegex = /^[a-zA-Z' ]{2,14}$/;
+const apellidoRegex = /^[a-zA-Z' ]{2,14}$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,10}$/;
+
+const initialState = {
+  user: {
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    password2: "",
+    gender: "",
+  },
+  loading: false,
+  error: "",
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "REGISTER_REQUEST":
+    case "SET_USER":
       return {
-        loading: true,
-        error: null,
+        ...state,
+        user: action.payload,
       };
-    case "FETCH_SUCCESS":
+    case "SET_LOADING":
       return {
-        loading: false,
-        error: null,
+        ...state,
+        loading: action.payload,
       };
-    case "FETCH_ERROR":
+    case "SET_ERRORS":
       return {
-        loading: false,
-        error: true,
-        errorMsg: "Something went wrong",
+        ...state,
+        error: action.payload,
       };
 
     default:
       return state;
   }
 };
-
 export const FormRegister = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const navigate = useNavigate();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-  const [valueEmail, BindEmail, resetEmail] = useForm("");
-  const [valueName, BindName, resetName] = useForm("");
-  const [valueLastname, BindLastname, resetLastname] = useForm("");
-  const [valuePassword, BindPasworrd, resetPassword] = useForm("");
-  const [valuePassword2, BindPasworrd2, resetPassword2] = useForm("");
-  const [valueGender, BindGender, resetGender] = useForm("");
-
-  const resetForm = () => {
-    resetEmail(),
-      resetName(),
-      resetLastname(),
-      resetPassword(),
-      resetPassword2(),
-      resetGender();
+    dispatch({
+      type: "SET_USER",
+      payload: {
+        ...state.user,
+        [name]: value,
+      },
+    });
   };
 
-  const v_rol = "USER";
+  const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch({ type: "REGISTER_REQUEST" });
+    //validaciones inputs
+    if (!nombreRegex.test(state.user.firstname)) {
+      dispatch({ type: "SET_ERRORS", payload: "NAME" });
+      return;
+    }
+    if (!apellidoRegex.test(state.user.lastname)) {
+      dispatch({ type: "SET_ERRORS", payload: "LASTNAME" });
+      return;
+    }
+    if (!passwordRegex.test(state.user.password)) {
+      dispatch({ type: "SET_ERRORS", payload: "PASSWORD" });
+      return;
+    }
+    if (state.user.password !== state.user.password2) {
+      dispatch({ type: "SET_ERRORS", payload: "!PASSWORD2" });
+      return;
+    }
+    dispatch({ type: "SET_ERRORS", payload: "" });
+    dispatch({ type: "SET_LOADING", payload: true });
+
     const datos = {
-      nombre: valueName,
-      apellido: valueLastname,
-      correo: valueEmail,
-      password: valuePassword,
-      rol: v_rol,
+      nombre: state.user.firstname,
+      apellido: state.user.lastname,
+      correo: state.user.email,
+      password: state.user.password,
+      rol: "USER",
     };
 
     await axios
       .post("https://testback4.onrender.com/api/usuarios", datos)
       .then((res) => {
-        dispatch({ type: "FETCH_SUCCESS" });
         console.log("success");
         navigate("/");
-        resetForm();
+        dispatch({ type: "SET_LOADING", payload: false });
       })
       .catch((err) => {
-        dispatch({ type: "FETCH_ERR" });
         console.log(err);
+        dispatch({ type: "SET_LOADING", payload: false });
       });
   };
 
@@ -107,8 +132,8 @@ export const FormRegister = () => {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1 }}>
-          <LockOutlinedIcon />
+        <Avatar sx={{ m: 1, bgcolor: blue[700] }}>
+          <PersonAddIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
@@ -117,34 +142,51 @@ export const FormRegister = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
+                disabled={state.loading && true}
+                error={state.error === "NAME" && true}
+                helperText={
+                  state.error === "NAME" &&
+                  "Firstname must contain 2 to 15 characters"
+                }
+                name="firstname"
+                value={state.user.firstname}
+                onChange={handleChange}
+                type="text"
                 required
                 autoFocus
                 label="First Name"
-                type="text"
                 variant="outlined"
                 fullWidth
-                {...BindName}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                disabled={state.loading && true}
+                error={state.error === "LASTNAME" && true}
+                helperText={
+                  state.error === "NAME" &&
+                  "Lastname must contain 2 to 15 characters"
+                }
+                name="lastname"
+                value={state.user.lastname}
+                onChange={handleChange}
                 required
                 label="Last Name"
                 type="text"
                 variant="outlined"
                 fullWidth
-                {...BindLastname}
               />
             </Grid>
             <Grid item xs={12}>
               <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
               <RadioGroup
+                disabled={state.loading && true}
+                required
                 aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
                 fullWidth
-                name="radio-buttons-group"
+                name="gender"
+                onChange={handleChange}
                 sx={{ flexDirection: "row", justifyContent: "center" }}
-                {...BindGender}
               >
                 <FormControlLabel
                   value="female"
@@ -165,12 +207,15 @@ export const FormRegister = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                disabled={state.loading && true}
+                name="email"
+                value={state.user.email}
+                onChange={handleChange}
                 required
                 fullWidth
                 label="Email"
                 type="email"
                 variant="outlined"
-                {...BindEmail}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -182,12 +227,17 @@ export const FormRegister = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                disabled={state.loading && true}
+                name="password"
+                value={state.user.password}
+                onChange={handleChange}
+                error={state.error === "PASSWORD" && true}
+                helperText="Must contain 8 to 10 characters, at least one uppercase amd one number"
                 required
                 fullWidth
                 type="password"
                 label="Password"
                 variant="outlined"
-                {...BindPasworrd}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -195,21 +245,28 @@ export const FormRegister = () => {
                     </InputAdornment>
                   ),
                 }}
-                helperText="1-10 caracteres, una letra mayuscula al menos"
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                disabled={state.loading && true}
+                name="password2"
+                value={state.user.password2}
+                onChange={handleChange}
                 required
+                error={state.error === "!PASSWORD2" && true}
+                helperText={
+                  state.error === "!PASSWORD2" && "Passwords do not match"
+                }
                 fullWidth
                 type="password"
                 label="Repeat password"
                 variant="outlined"
-                {...BindPasworrd2}
               />
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
+                disabled={state.loading && true}
                 required
                 control={<Checkbox />}
                 label="Acept terms and conditions"
@@ -238,6 +295,7 @@ export const FormRegister = () => {
             <Grid container justifyContent="center">
               <Grid item>
                 <Link
+                  disabled={state.loading && true}
                   component="button"
                   onClick={() => {
                     navigate("/");
