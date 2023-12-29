@@ -21,50 +21,15 @@ import KeyIcon from "@mui/icons-material/Key";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import axios from "axios";
-import { useReducer } from "react";
 import { blue } from "@mui/material/colors";
+import { FormReducer } from "../reducers/FormReducer";
 
 const nombreRegex = /^[a-zA-Z' ]{2,14}$/;
 const apellidoRegex = /^[a-zA-Z' ]{2,14}$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,10}$/;
 
-const initialState = {
-  user: {
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    password2: "",
-    gender: "",
-  },
-  loading: false,
-  error: "",
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "SET_USER":
-      return {
-        ...state,
-        user: action.payload,
-      };
-    case "SET_LOADING":
-      return {
-        ...state,
-        loading: action.payload,
-      };
-    case "SET_ERRORS":
-      return {
-        ...state,
-        error: action.payload,
-      };
-
-    default:
-      return state;
-  }
-};
 export const FormRegister = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = FormReducer();
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -83,41 +48,39 @@ export const FormRegister = () => {
     e.preventDefault();
     //validaciones inputs
     if (!nombreRegex.test(state.user.firstname)) {
-      dispatch({ type: "SET_ERRORS", payload: "NAME" });
+      dispatch({ type: "SET_ERROR", payload: "NAME" });
       return;
     }
     if (!apellidoRegex.test(state.user.lastname)) {
-      dispatch({ type: "SET_ERRORS", payload: "LASTNAME" });
+      dispatch({ type: "SET_ERROR", payload: "LASTNAME" });
       return;
     }
     if (!passwordRegex.test(state.user.password)) {
-      dispatch({ type: "SET_ERRORS", payload: "PASSWORD" });
+      dispatch({ type: "SET_ERROR", payload: "PASSWORD" });
       return;
     }
     if (state.user.password !== state.user.password2) {
-      dispatch({ type: "SET_ERRORS", payload: "!PASSWORD2" });
+      dispatch({ type: "SET_ERROR", payload: "!PASSWORD2" });
       return;
     }
-    dispatch({ type: "SET_ERRORS", payload: "" });
+
+    dispatch({ type: "SET_ERROR", payload: "" });
     dispatch({ type: "SET_LOADING", payload: true });
 
-    const datos = {
-      nombre: state.user.firstname,
-      apellido: state.user.lastname,
-      correo: state.user.email,
-      password: state.user.password,
-      rol: "USER",
-    };
-
     await axios
-      .post("https://testback4.onrender.com/api/usuarios", datos)
+      .post("https://testback4.onrender.com/api/usuarios", {
+        nombre: state.user.firstname,
+        apellido: state.user.lastname,
+        correo: state.user.email,
+        password: state.user.password,
+        rol: "USER",
+      })
       .then((res) => {
-        alert("success");
-        navigate("/");
         dispatch({ type: "SET_LOADING", payload: false });
+        navigate("/login");
       })
       .catch((err) => {
-        console.log(err);
+        dispatch({ type: "SET_ERROR", payload: "ERRORBD" });
         dispatch({ type: "SET_LOADING", payload: false });
       });
   };
@@ -164,7 +127,7 @@ export const FormRegister = () => {
                 disabled={state.loading && true}
                 error={state.error === "LASTNAME" && true}
                 helperText={
-                  state.error === "NAME" &&
+                  state.error === "LASTNAME" &&
                   "Lastname must contain 2 to 15 characters"
                 }
                 name="lastname"
@@ -272,6 +235,13 @@ export const FormRegister = () => {
                 label="Acept terms and conditions"
               />
             </Grid>
+            {state.error === "ERRORBD" && (
+              <Grid item xs={12}>
+                <Typography color="error" variant="body2">
+                  Something went wrong
+                </Typography>
+              </Grid>
+            )}
             {state.loading ? (
               <Grid
                 container
@@ -298,7 +268,7 @@ export const FormRegister = () => {
                   disabled={state.loading && true}
                   component="button"
                   onClick={() => {
-                    navigate("/");
+                    navigate("/login");
                   }}
                   variant="body2"
                 >

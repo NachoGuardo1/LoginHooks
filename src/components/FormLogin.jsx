@@ -1,3 +1,8 @@
+import React, { useContext, useState } from "react";
+import { authContext } from "../context/AuthContext";
+import { FormReducer } from "../reducers/FormReducer";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   Avatar,
   Box,
@@ -10,50 +15,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useReducer, useState } from "react";
+import Link from "@mui/material/Link";
+import SendIcon from "@mui/icons-material/Send";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import SendIcon from "@mui/icons-material/Send";
-import { useNavigate } from "react-router-dom";
-import Link from "@mui/material/Link";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import axios from "axios";
 import { blue } from "@mui/material/colors";
 
-const initialState = {
-  user: {
-    email: "",
-    password: "",
-  },
-  loading: false,
-  error: false,
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "SET_USER":
-      return {
-        ...state,
-        user: action.payload,
-      };
-    case "SET_LOADING":
-      return {
-        ...state,
-        loading: action.payload,
-      };
-    case "SET_ERROR":
-      return {
-        ...state,
-        error: action.payload,
-      };
-
-    default:
-      return state;
-  }
-};
-
 export const FormLogin = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { onLogin } = useContext(authContext);
+  const [state, dispatch] = FormReducer();
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -75,15 +46,16 @@ export const FormLogin = () => {
     e.preventDefault();
 
     dispatch({ type: "SET_LOADING", payload: true });
-    const datos = { correo: state.user.email, password: state.user.password };
     await axios
-      .post("https://testback4.onrender.com/api/auth/login", datos)
+      .post("https://testback4.onrender.com/api/auth/login", {
+        correo: state.user.email,
+        password: state.user.password,
+      })
       .then((res) => {
-        const { token } = res.data;
+        const { token, usuario } = res.data;
         dispatch({ type: "SET_USER", payload: { email: "", password: "" } });
         dispatch({ type: "SET_LOADING", payload: false });
-        localStorage.setItem("token", JSON.stringify(token));
-        alert("Success");
+        onLogin(usuario, token);
       })
       .catch((err) => {
         dispatch({ type: "SET_LOADING", payload: false });
