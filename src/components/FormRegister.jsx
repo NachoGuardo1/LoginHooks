@@ -112,7 +112,7 @@ export const FormRegister = () => {
     await axios
       .post("https://testback4.onrender.com/api/usuarios", datos)
       .then((res) => {
-        console.log("success");
+        alert("success");
         navigate("/");
         dispatch({ type: "SET_LOADING", payload: false });
       })

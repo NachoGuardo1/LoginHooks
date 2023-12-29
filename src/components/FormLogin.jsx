@@ -83,7 +83,7 @@ export const FormLogin = () => {
         dispatch({ type: "SET_USER", payload: { email: "", password: "" } });
         dispatch({ type: "SET_LOADING", payload: false });
         localStorage.setItem("token", JSON.stringify(token));
-        console.log("Success");
+        alert("Success");
       })
       .catch((err) => {
         dispatch({ type: "SET_LOADING", payload: false });
@@ -170,12 +170,12 @@ export const FormLogin = () => {
               Sing In
             </Button>
           )}
-          <Grid container>
-            <Grid item xs>
+          <Grid container justifyContent="center">
+            {/* <Grid item xs>
               <Link href="#" variant="body2" disabled={state.loading && true}>
                 Forgot password?
               </Link>
-            </Grid>
+            </Grid> */}
             <Grid item>
               <Link
                 disabled={state.loading && true}
