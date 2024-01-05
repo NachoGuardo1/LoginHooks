@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { authContext } from "../context/AuthContext";
 import { FormReducer } from "../reducers/FormReducer";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import {
   Avatar,
   Box,
@@ -21,21 +20,11 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { blue } from "@mui/material/colors";
+import { AuthService } from "../services/AuthService";
 
 export const FormLogin = () => {
   const { onLogin } = useContext(authContext);
-  const [state, dispatch] = FormReducer();
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    dispatch({
-      type: "SET_USER",
-      payload: {
-        ...state.user,
-        [name]: value,
-      },
-    });
-  };
+  const { state, dispatch, handleChange } = FormReducer();
 
   const navigate = useNavigate();
 
@@ -46,22 +35,18 @@ export const FormLogin = () => {
     e.preventDefault();
 
     dispatch({ type: "SET_LOADING", payload: true });
-    await axios
-      .post("https://testback4.onrender.com/api/auth/login", {
-        correo: state.user.email,
-        password: state.user.password,
-      })
-      .then((res) => {
-        const { token, usuario } = res.data;
-        dispatch({ type: "SET_USER", payload: { email: "", password: "" } });
-        dispatch({ type: "SET_LOADING", payload: false });
-        onLogin(usuario, token);
-      })
-      .catch((err) => {
-        dispatch({ type: "SET_LOADING", payload: false });
-        dispatch({ type: "SET_ERROR", payload: true });
-        console.log(err);
-      });
+    const datos = { correo: state.user.email, password: state.user.password };
+    try {
+      const resp = await AuthService.Login(datos);
+      const { token, usuario } = resp.data;
+      dispatch({ type: "SET_USER", payload: { email: "", password: "" } });
+      dispatch({ type: "SET_LOADING", payload: false });
+      onLogin(usuario, token);
+    } catch (err) {
+      dispatch({ type: "SET_LOADING", payload: false });
+      dispatch({ type: "SET_ERROR", payload: true });
+      console.log(err);
+    }
   };
 
   return (

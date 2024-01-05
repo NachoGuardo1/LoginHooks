@@ -37,5 +37,18 @@ const reducer = (state, action) => {
 };
 
 export const FormReducer = () => {
-  return useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    dispatch({
+      type: "SET_USER",
+      payload: {
+        ...state.user,
+        [name]: value,
+      },
+    });
+  };
+
+  return { state, dispatch, handleChange };
 };

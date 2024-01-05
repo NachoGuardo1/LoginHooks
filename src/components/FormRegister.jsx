@@ -20,27 +20,16 @@ import SendIcon from "@mui/icons-material/Send";
 import KeyIcon from "@mui/icons-material/Key";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import axios from "axios";
 import { blue } from "@mui/material/colors";
 import { FormReducer } from "../reducers/FormReducer";
+import { AuthService } from "../services/AuthService";
 
 const nombreRegex = /^[a-zA-Z' ]{2,14}$/;
 const apellidoRegex = /^[a-zA-Z' ]{2,14}$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,10}$/;
 
 export const FormRegister = () => {
-  const [state, dispatch] = FormReducer();
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    dispatch({
-      type: "SET_USER",
-      payload: {
-        ...state.user,
-        [name]: value,
-      },
-    });
-  };
+  const { state, dispatch, handleChange } = FormReducer();
 
   const navigate = useNavigate();
 
@@ -67,22 +56,21 @@ export const FormRegister = () => {
     dispatch({ type: "SET_ERROR", payload: "" });
     dispatch({ type: "SET_LOADING", payload: true });
 
-    await axios
-      .post("https://testback4.onrender.com/api/usuarios", {
-        nombre: state.user.firstname,
-        apellido: state.user.lastname,
-        correo: state.user.email,
-        password: state.user.password,
-        rol: "USER",
-      })
-      .then((res) => {
-        dispatch({ type: "SET_LOADING", payload: false });
-        navigate("/login");
-      })
-      .catch((err) => {
-        dispatch({ type: "SET_ERROR", payload: "ERRORBD" });
-        dispatch({ type: "SET_LOADING", payload: false });
-      });
+    const data = {
+      nombre: state.user.firstname,
+      apellido: state.user.lastname,
+      correo: state.user.email,
+      password: state.user.password,
+      rol: "USER",
+    };
+    try {
+      await AuthService.Register(data);
+      dispatch({ type: "SET_LOADING", payload: false });
+      navigate("/login");
+    } catch (err) {
+      dispatch({ type: "SET_ERROR", payload: "ERRORBD" });
+      dispatch({ type: "SET_LOADING", payload: false });
+    }
   };
 
   return (
