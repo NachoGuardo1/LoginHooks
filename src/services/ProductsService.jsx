@@ -2,9 +2,7 @@ import axios from "axios";
 
 export const ProductsService = {
   GET: () => {
-    return axios.get(
-      "https://fakestoreapi.com/products/category/men's clothing"
-    );
+    return axios.get("https://fakestoreapi.com/products");
   },
   POST: () => {
     return axios.post("");

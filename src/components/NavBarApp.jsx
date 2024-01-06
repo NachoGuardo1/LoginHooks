@@ -18,10 +18,13 @@ import { Badge, Divider, ListItemButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Logout from "@mui/icons-material/Logout";
+import { productsContext } from "../context/ProductsContext";
+import { DialogCart } from "./DialogCart";
 
 export const NavBarApp = () => {
   const navigate = useNavigate();
   const { userData, userLogged, onLogout } = React.useContext(authContext);
+  const { favs, cart } = React.useContext(productsContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -63,7 +66,7 @@ export const NavBarApp = () => {
             >
               LOGO
             </Typography>
-
+            {/* LINKS XS */}
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
@@ -123,6 +126,7 @@ export const NavBarApp = () => {
             >
               LOGO
             </Typography>
+            {/* LINKS LG */}
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <Button
                 onClick={handleCloseNavMenu}
@@ -156,17 +160,22 @@ export const NavBarApp = () => {
                       : null}
                   </Avatar>
                 </IconButton>
-                <IconButton>
-                  <Badge variant="dot" color="secondary">
+                {/* BTN FAV */}
+                {favs.length !== 0 ? (
+                  <IconButton onClick={() => navigate("/favs")}>
+                    <Badge variant="dot" color="secondary">
+                      <FavoriteIcon fontSize="small" />
+                    </Badge>
+                  </IconButton>
+                ) : (
+                  <IconButton disabled>
                     <FavoriteIcon fontSize="small" />
-                  </Badge>
-                </IconButton>
-                <IconButton>
-                  <Badge badgeContent={3} color="secondary">
-                    <ShoppingCartIcon fontSize="small" />
-                  </Badge>
-                </IconButton>
+                  </IconButton>
+                )}
+                {/* BTN CART */}
+                <DialogCart />
               </Tooltip>
+              {/* MENU USER */}
               <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
