@@ -75,6 +75,8 @@ const ProductsProvider = ({ children }) => {
         removeFromFavs,
         deductProduct,
         total,
+        setCart,
+        setFavs,
       }}
     >
       {children}

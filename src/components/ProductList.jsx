@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { ProductsReducer } from "../reducers/ProductsReducer";
 import { productsContext } from "../context/ProductsContext";
 import { DialogDescription } from "./DialogDescription";
+import { SkeletonCard } from "./SkeletonCard";
 
 export const ProductList = () => {
   const [state, dispatch] = ProductsReducer();
@@ -38,13 +39,21 @@ export const ProductList = () => {
       navigate("/error");
     }
   };
+  const truncateTitle = (title, maxLength) => {
+    if (title.length > maxLength) {
+      return title.substring(0, maxLength) + "...";
+    }
+    return title;
+  };
 
   return (
-    <Grid container justifyContent="center" gap={4} marginTop={4}>
+    <Grid container justifyContent="center" gap={2} marginTop={3}>
       {state.loading
-        ? "loading.."
+        ? Array.from({ length: 6 }).map((_, index) => (
+            <SkeletonCard key={index} />
+          ))
         : state.products.map((product) => (
-            <Grid item xs={8} sm={5} md={4} lg={3} key={product.id}>
+            <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={product.id}>
               <Card sx={{ maxHeight: 450 }}>
                 {/* BTN FAV Y MORE */}
                 <Box
@@ -76,19 +85,25 @@ export const ProductList = () => {
                   sx={{ height: 200, width: "100%", objectFit: "contain" }}
                   image={product.image}
                 />
+                {/* TITULO Y PRECIO */}
                 <Grid container padding={2}>
-                  {/* TITULO Y PRECIO */}
                   <Grid item xs={10}>
                     <Typography
                       variant="h3"
                       textAlign="start"
                       color="text.secondary"
                       fontSize="14px"
+                      fontWeight={600}
                       marginBottom={3}
                     >
-                      {product.title}
+                      {truncateTitle(product.title, 20)}
                     </Typography>
-                    <Typography variant="body1" color="error">
+                    <Typography
+                      variant="body1"
+                      color="error"
+                      fontSize="14px"
+                      fontWeight={600}
+                    >
                       ${product.price}
                     </Typography>
                   </Grid>

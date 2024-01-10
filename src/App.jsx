@@ -12,8 +12,8 @@ import { FavsPage } from "./pages/FavsPage";
 function App() {
   return (
     <>
-      <AuthProvider>
-        <ProductsProvider>
+      <ProductsProvider>
+        <AuthProvider>
           <NavBarApp />
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -22,8 +22,8 @@ function App() {
             <Route path="/favs" element={<FavsPage />} />
             <Route path="*" element={<Error />} />
           </Routes>
-        </ProductsProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ProductsProvider>
     </>
   );
 }
