@@ -1,11 +1,11 @@
 import React from "react";
 import { ProductList } from "../components/ProductList";
-import { SliderHome } from "../components/SliderHome";
+import { CarouselCards } from "../components/Carousel";
 
 export const HomePage = () => {
   return (
     <>
-      <SliderHome />
+      <CarouselCards />
       <ProductList />
     </>
   );

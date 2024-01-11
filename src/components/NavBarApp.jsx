@@ -28,6 +28,14 @@ import AdbIcon from "@mui/icons-material/Adb";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { DialogCart } from "./DialogCart";
+import { HeaderHome } from "./HeaderHome";
+import { SearchNav } from "./SearchNav";
+import SearchIcon from "@mui/icons-material/Search";
+import WomanIcon from "@mui/icons-material/Woman";
+import ManIcon from "@mui/icons-material/Man";
+import DiamondIcon from "@mui/icons-material/Diamond";
+import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
+import { DrawerSearcMob } from "./DrawerSearcMob";
 
 export const NavBarApp = () => {
   const navigate = useNavigate();
@@ -45,6 +53,11 @@ export const NavBarApp = () => {
   };
   //DRAWER
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  //SEARCHMOBILE
+  const [search, setSearch] = useState(null);
+  const handleSearch = () => {
+    setSearch(!search);
+  };
 
   return (
     <>
@@ -90,51 +103,7 @@ export const NavBarApp = () => {
               </Box>
               {/* LINKS */}
               <Box>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component="a"
-                  href="/link1"
-                  sx={{
-                    mr: 2,
-                    fontWeight: 500,
-                    fontSize: "16px",
-                    color: "text.primary",
-                    textDecoration: "none",
-                  }}
-                >
-                  Link 1
-                </Typography>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component="a"
-                  href="/link2"
-                  sx={{
-                    mr: 2,
-                    fontWeight: 500,
-                    fontSize: "16px",
-                    color: "text.primary",
-                    textDecoration: "none",
-                  }}
-                >
-                  Link 2
-                </Typography>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component="a"
-                  href="/link3"
-                  sx={{
-                    mr: 2,
-                    fontWeight: 500,
-                    fontSize: "16px",
-                    color: "text.primary",
-                    textDecoration: "none",
-                  }}
-                >
-                  Link3
-                </Typography>
+                <SearchNav />
               </Box>
               {/* ACTIONS */}
               <Box sx={{ display: "flex", gap: 1 }}>
@@ -188,16 +157,26 @@ export const NavBarApp = () => {
               }}
             >
               {/* MENU */}
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-                onClick={() => setDrawerOpen(true)}
-              >
-                <MenuIcon />
-              </IconButton>
+              <Box>
+                <IconButton
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  sx={{ mr: 0.5 }}
+                  onClick={() => setDrawerOpen(true)}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <IconButton
+                  size="small"
+                  edge="start"
+                  color="inherit"
+                  onClick={handleSearch}
+                >
+                  <SearchIcon fontSize="small" />
+                </IconButton>
+              </Box>
               {/* LOGO */}
               <Box
                 sx={{
@@ -205,7 +184,6 @@ export const NavBarApp = () => {
                   alignItems: "center",
                 }}
               >
-                <AdbIcon sx={{ mr: 1 }} />
                 <Typography
                   variant="h6"
                   noWrap
@@ -260,6 +238,8 @@ export const NavBarApp = () => {
             </Box>
           </Toolbar>
         </Container>
+        <HeaderHome />
+        {search && <DrawerSearcMob />}
       </AppBar>
       <Menu
         anchorEl={anchorEl}
@@ -305,9 +285,44 @@ export const NavBarApp = () => {
         onClose={() => setDrawerOpen(false)}
       >
         <List sx={{ width: { xs: 150, sm: 200 } }}>
-          <ListItem>Link 1</ListItem>
-          <ListItem>Link 2</ListItem>
-          <ListItem>Link 3</ListItem>
+          <ListItem>
+            <Typography variant="h6" fontWeight={650} fontSize="18px">
+              MENU
+            </Typography>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <IconButton>
+              <WomanIcon fontSize="small" sx={{ mr: 1 }} />
+              <Typography variant="body2" fontWeight={600}>
+                WOMENS
+              </Typography>
+            </IconButton>
+          </ListItem>
+          <ListItem>
+            <IconButton>
+              <ManIcon fontSize="small" sx={{ mr: 1 }} />
+              <Typography variant="body2" fontWeight={600}>
+                MENS
+              </Typography>
+            </IconButton>
+          </ListItem>
+          <ListItem>
+            <IconButton>
+              <DiamondIcon fontSize="small" sx={{ mr: 1 }} />
+              <Typography variant="body2" fontWeight={600}>
+                JEWELERY
+              </Typography>
+            </IconButton>
+          </ListItem>
+          <ListItem>
+            <IconButton>
+              <PhoneIphoneIcon fontSize="small" sx={{ mr: 1 }} />
+              <Typography variant="body2" fontWeight={600}>
+                ELECTRONICS
+              </Typography>
+            </IconButton>
+          </ListItem>
         </List>
       </Drawer>
     </>

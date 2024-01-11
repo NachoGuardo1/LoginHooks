@@ -25,7 +25,10 @@ export const DialogDescription = ({ product }) => {
           <Box
             sx={{ display: "flex", justifyContent: "center", marginBottom: 2 }}
           >
-            <img src={product.image} style={{ width: 300, height: 300 }} />
+            <img
+              src={product.image}
+              style={{ width: 300, height: 300, objectFit: "contain" }}
+            />
           </Box>
           <Typography
             variant="h2"
