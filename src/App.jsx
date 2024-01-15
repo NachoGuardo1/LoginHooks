@@ -8,6 +8,8 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { ProductsProvider } from "./context/ProductsContext";
 import { FavsPage } from "./pages/FavsPage";
+import { ProductsDetails } from "./components/ProductsDetails";
+import { ProductCategory } from "./components/ProductCategory";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           <NavBarApp />
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/details/:productId" element={<ProductsDetails />} />
+            <Route path="/category/:category" element={<ProductCategory />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/favs" element={<FavsPage />} />

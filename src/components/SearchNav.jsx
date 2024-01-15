@@ -1,13 +1,14 @@
-import { Autocomplete, Stack, TextField } from "@mui/material";
+import { Autocomplete, InputAdornment, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { ProductsReducer } from "../reducers/ProductsReducer";
 import { ProductsService } from "../services/ProductsService";
 import { useNavigate } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
 
 export const SearchNav = () => {
   const [value, setValue] = useState(null);
   const [options, setOptions] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -27,6 +28,11 @@ export const SearchNav = () => {
     return title;
   };
 
+  const handleChange = (e, newValue) => {
+    setValue(newValue);
+    navigate(`/details/${newValue.id.toString()}`);
+  };
+
   return (
     <Stack>
       <Autocomplete
@@ -35,18 +41,20 @@ export const SearchNav = () => {
           width: 300,
         }}
         value={value}
-        onChange={(e, newValue) => {
-          setValue(newValue);
-        }}
+        onChange={handleChange}
         options={options}
         getOptionLabel={(option) => truncateTitle(option.title, 25)}
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search"
             InputProps={{
               ...params.InputProps,
               type: "search",
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
             }}
           />
         )}

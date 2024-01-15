@@ -2,15 +2,12 @@ import React, { useContext } from "react";
 import { productsContext } from "../context/ProductsContext";
 import {
   Avatar,
-  Box,
   Grid,
   IconButton,
   Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
-  TableHead,
   TableRow,
   Typography,
 } from "@mui/material";

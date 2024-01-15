@@ -1,43 +1,43 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { ProductsService } from "../services/ProductsService";
 import {
   Badge,
   Box,
   Card,
   CardMedia,
+  Container,
   Fab,
   Grid,
   IconButton,
   Typography,
 } from "@mui/material";
+import { SkeletonCard } from "./SkeletonCard";
+import { DialogDescription } from "./DialogDescription";
+import { productsContext } from "../context/ProductsContext";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
-
-import { useNavigate } from "react-router-dom";
-import { ProductsReducer } from "../reducers/ProductsReducer";
-import { productsContext } from "../context/ProductsContext";
-import { DialogDescription } from "./DialogDescription";
-import { SkeletonCard } from "./SkeletonCard";
 import { RatingProduct } from "./RatingProduct";
 
-export const ProductList = () => {
-  const [state, dispatch] = ProductsReducer();
-  const navigate = useNavigate();
+export const ProductCategory = () => {
   const { addToCart, removeFromCart, cart, favs, addToFavs, removeFromFavs } =
     useContext(productsContext);
-
+  const { category } = useParams();
+  const [products, setProducts] = useState(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getProducts();
-  }, []);
-  const getProducts = async () => {
+    getProductCategory();
+  }, [category]);
+  const getProductCategory = async () => {
     try {
-      const response = await ProductsService.GET();
-      dispatch({ type: "FETCH_SUCCESS", payload: response.data });
+      const resp = await ProductsService.GET_IN_CATEGORIES(category);
+      setProducts(resp.data);
+      setLoading(false);
     } catch (error) {
-      dispatch({ type: "FETCH_ERROR" });
-      navigate("/error");
+      console.log(error);
+      setLoading(false);
     }
   };
   const truncateTitle = (title, maxLength) => {
@@ -46,14 +46,13 @@ export const ProductList = () => {
     }
     return title;
   };
-
   return (
     <Grid container justifyContent="center" gap={2} marginTop={3}>
-      {state.loading
-        ? Array.from({ length: 6 }).map((_, index) => (
+      {loading
+        ? Array.from({ length: 4 }).map((_, index) => (
             <SkeletonCard key={index} />
           ))
-        : state.products.map((product) => (
+        : products.map((product) => (
             <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={product.id}>
               <Card sx={{ maxHeight: 450 }}>
                 {/* BTN FAV Y MORE */}

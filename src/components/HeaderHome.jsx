@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { Box, IconButton, Tab, Tabs, Typography } from "@mui/material";
+import { Box, IconButton, Skeleton, Typography } from "@mui/material";
+import { ProductsService } from "../services/ProductsService";
+import { CategoriesReducer } from "../reducers/CategoriesReducer";
+import { useNavigate } from "react-router-dom";
 
 export const HeaderHome = () => {
-  const [value, setValue] = React.useState(0);
+  const [state, dispatch] = CategoriesReducer();
+  const navigate = useNavigate();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  useEffect(() => {
+    getCategories();
+  }, []);
+  const getCategories = async () => {
+    try {
+      const response = await ProductsService.GET_CATEGORIES();
+      dispatch({ type: "FETCH_SUCCESS", payload: response.data });
+    } catch (error) {
+      dispatch({ type: "FETCH_ERROR" });
+      navigate("/error");
+    }
   };
   return (
     <Box
@@ -15,26 +28,28 @@ export const HeaderHome = () => {
         justifyContent: "space-around",
       }}
     >
-      <IconButton>
-        <Typography variant="body2" fontWeight={600}>
-          WOMENS
-        </Typography>
-      </IconButton>
-      <IconButton>
-        <Typography variant="body2" fontWeight={600}>
-          MENS
-        </Typography>
-      </IconButton>
-      <IconButton>
-        <Typography variant="body2" fontWeight={600}>
-          JEWELERY
-        </Typography>
-      </IconButton>
-      <IconButton>
-        <Typography variant="body2" fontWeight={600}>
-          ELECTRONICS
-        </Typography>
-      </IconButton>
+      {state.loading
+        ? Array.from({ length: 4 }).map((_, index) => (
+            <Skeleton
+              variant="text"
+              sx={{ fontSize: "1rem", width: 100 }}
+              key={index}
+            />
+          ))
+        : state.categories.map((category, index) => (
+            <IconButton
+              key={index}
+              onClick={() => navigate(`/category/${category.toString()}`)}
+            >
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                sx={{ fontFamily: "monospace" }}
+              >
+                {category.toUpperCase()}
+              </Typography>
+            </IconButton>
+          ))}
     </Box>
   );
 };

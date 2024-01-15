@@ -1,5 +1,6 @@
 import {
   Badge,
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -16,7 +17,7 @@ import { TableCart } from "./TableCart";
 import CloseIcon from "@mui/icons-material/Close";
 
 export const DialogCart = () => {
-  const { cart, total } = useContext(productsContext);
+  const { cart, total, cleanCart } = useContext(productsContext);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -34,11 +35,11 @@ export const DialogCart = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            fontSize: "20px",
+            fontWeight: 600,
           }}
         >
-          <Typography variant="h3" fontSize="20px" fontWeight={600}>
-            My Shopping Cart
-          </Typography>
+          My Shopping Cart
           <IconButton onClick={handleClose}>
             <CloseIcon />
           </IconButton>
@@ -53,6 +54,14 @@ export const DialogCart = () => {
           <Typography variant="caption" fontWeight={600}>
             Grand Total: ${total.toFixed(2)}
           </Typography>
+          <Box display="flex" flexDirection="column" gap={1}>
+            <Button variant="contained" color="error" onClick={cleanCart}>
+              Empty Cart
+            </Button>
+            <Button variant="contained" color="success">
+              Proceed to pay
+            </Button>
+          </Box>
         </DialogActions>
       </Dialog>
 

@@ -1,66 +1,168 @@
-import { Box, Button, Card, CardMedia, Grid, Typography } from "@mui/material";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
+import React from "react";
 import Carousel from "react-material-ui-carousel";
 
 export const CarouselCards = () => {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    getCategory();
-  }, []);
-  const getCategory = async () => {
-    try {
-      const response = await axios.get(
-        "https://fakestoreapi.com/products?limit=6"
-      );
-      setProducts(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const [products, setProducts] = useState([]);
+  // useEffect(() => {
+  //   getRandom();
+  // }, []);
+  // const getRandom = async () => {
+  //   try {
+  //     const response = await ProductsService.GET_LIMIT();
+  //     setProducts(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
-    <Carousel animation="fade" autoPlay={true} indicators height={300}>
-      {products.map((product) => (
-        <Card sx={{ maxHeight: 450 }} key={product.id}>
-          {/* BTN FAV Y MORE */}
-          <Box
-            sx={{
-              display: "flex",
-              gap: 1,
-              justifyContent: "end",
-              margin: 1,
-            }}
-          ></Box>
-          {/* IMAGEN */}
-          <CardMedia
-            component="img"
-            sx={{ height: 200, width: "100%", objectFit: "contain" }}
-            image={product.image}
-          />
-          {/* TITULO  */}
-          <Grid container padding={2}>
-            <Grid
-              item
-              xs={12}
-              display="flex"
-              justifyContent="center"
-              direction="column"
-            >
-              <Typography
-                variant="h3"
-                textAlign="center"
-                color="error"
-                fontSize="14px"
-                fontWeight={600}
-              >
-                {Math.floor(Math.random() * 45) + 1}% OFF
-              </Typography>
-              <Button>See More</Button>
-            </Grid>
-          </Grid>
-        </Card>
-      ))}
+    <Carousel animation="fade" autoPlay={true} indicators={false}>
+      <Box position="relative">
+        <img
+          src="https://themewagon.github.io/believe/images/slider-1.jpg"
+          style={{ objectFit: "cover", width: "100%", height: "100%" }}
+        />
+        <Box
+          position="absolute"
+          top="50%"
+          left="5%"
+          display="flex"
+          flexDirection="column"
+        >
+          <Typography
+            variant="h3"
+            fontSize={{ xs: "18px", md: "24px" }}
+            color="primary"
+            fontWeight={750}
+          >
+            MEN'S
+          </Typography>
+          <Typography
+            variant="h3"
+            fontSize={{ xs: "18px", md: "24px" }}
+            gutterBottom
+            fontWeight={750}
+          >
+            FASHION
+          </Typography>
+          <Typography
+            variant="h5"
+            fontSize="14px"
+            fontWeight={600}
+            marginTop={2}
+          >
+            New & Fresh collection
+          </Typography>
+          <Typography
+            variant="h5"
+            fontSize="14px"
+            gutterBottom
+            fontWeight={600}
+            marginBottom={3}
+          >
+            arrival in believe store
+          </Typography>
+
+          <Button variant="contained" color="primary" size="small">
+            SHOP NOW
+          </Button>
+        </Box>
+        <Box
+          position="absolute"
+          top="50%"
+          right="5%"
+          display="flex"
+          flexDirection="column"
+        >
+          <Typography
+            variant="h3"
+            fontSize={{ xs: "14px", md: "24px" }}
+            color="error"
+            fontWeight={750}
+          >
+            WOMEN'S
+          </Typography>
+          <Typography
+            variant="h3"
+            fontSize={{ xs: "14px", md: "24px" }}
+            gutterBottom
+            fontWeight={750}
+          >
+            FASHION
+          </Typography>
+          <Typography
+            variant="h5"
+            fontSize="14px"
+            fontWeight={600}
+            marginTop={2}
+          >
+            New & Fresh collection
+          </Typography>
+          <Typography
+            variant="h5"
+            fontSize="14px"
+            gutterBottom
+            fontWeight={600}
+            marginBottom={3}
+          >
+            arrival in believe store
+          </Typography>
+          <Button variant="contained" color="error" size="small">
+            SHOP NOW
+          </Button>
+        </Box>
+      </Box>
+      <Box position="relative">
+        <img
+          src="https://themewagon.github.io/believe/images/slider-2.jpg"
+          style={{ objectFit: "cover", width: "100%", height: "100%" }}
+        />
+        <Box
+          position="absolute"
+          top="50%"
+          left="5%"
+          display="flex"
+          flexDirection="column"
+        >
+          <Typography
+            variant="h3"
+            fontSize="24px"
+            color="primary"
+            fontWeight={750}
+          >
+            50% PRICE CUT
+          </Typography>
+          <Typography
+            variant="h3"
+            fontSize="24px"
+            gutterBottom
+            fontWeight={750}
+          >
+            FOR ONLINE ORDER
+          </Typography>
+          <Typography
+            variant="h5"
+            fontSize="14px"
+            fontWeight={600}
+            marginTop={2}
+          >
+            New & Fresh collection
+          </Typography>
+          <Typography
+            variant="h5"
+            fontSize="14px"
+            gutterBottom
+            fontWeight={600}
+            marginBottom={3}
+          >
+            arrival in believe store
+          </Typography>
+          <Button variant="contained" color="primary">
+            SHOP NOW
+          </Button>
+        </Box>
+      </Box>
     </Carousel>
   );
 };

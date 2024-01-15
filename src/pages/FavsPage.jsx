@@ -1,5 +1,10 @@
 import React from "react";
+import { FavsProducts } from "../components/FavsProducts";
 
 export const FavsPage = () => {
-  return <div>FavsPage</div>;
+  return (
+    <>
+      <FavsProducts />
+    </>
+  );
 };
