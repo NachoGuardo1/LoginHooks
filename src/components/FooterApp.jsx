@@ -1,4 +1,4 @@
-import { Avatar, Grid, IconButton, Typography } from "@mui/material";
+import { Avatar, Grid, IconButton, Paper, Typography } from "@mui/material";
 import React from "react";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
