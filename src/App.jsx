@@ -10,22 +10,25 @@ import { ProductsProvider } from "./context/ProductsContext";
 import { FavsPage } from "./pages/FavsPage";
 import { ProductsDetails } from "./components/ProductsDetails";
 import { ProductCategory } from "./components/ProductCategory";
+import { FooterApp } from "./components/FooterApp";
 
 function App() {
   return (
     <>
       <ProductsProvider>
         <AuthProvider>
-          <NavBarApp />
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/details/:productId" element={<ProductsDetails />} />
-            <Route path="/category/:category" element={<ProductCategory />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/favs" element={<FavsPage />} />
-            <Route path="*" element={<Error />} />
+            <Route path="/" element={<NavBarApp />}>
+              <Route index element={<HomePage />} />
+              <Route path="/details/:productId" element={<ProductsDetails />} />
+              <Route path="/category/:category" element={<ProductCategory />} />
+              <Route path="/favs" element={<FavsPage />} />
+              <Route path="*" element={<Error />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+            </Route>
           </Routes>
+          <FooterApp />
         </AuthProvider>
       </ProductsProvider>
     </>

@@ -29,7 +29,7 @@ export const DialogCart = () => {
 
   return (
     <>
-      <Dialog onClose={handleClose} open={open} maxWidth="sm" fullWidth>
+      <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
         <DialogTitle
           sx={{
             display: "flex",
@@ -44,25 +44,40 @@ export const DialogCart = () => {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-
-        <DialogContent sx={{ paddingX: "3px" }}>
-          <DialogContentText>
-            <TableCart />
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Typography variant="caption" fontWeight={600}>
-            Grand Total: ${total.toFixed(2)}
+        {cart.length > 0 ? (
+          <>
+            <DialogContent sx={{ paddingX: "3px" }}>
+              <DialogContentText>
+                <TableCart />
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions
+              sx={{ display: "flex", justifyContent: "end", alignItems: "end" }}
+            >
+              <Typography variant="caption" fontWeight={600}>
+                Grand Total: ${total.toFixed(2)}
+              </Typography>
+              <Box display="flex" flexDirection="column" gap={1}>
+                <Button variant="contained" color="error" onClick={cleanCart}>
+                  Empty Cart
+                </Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => {
+                    alert("Page in maintenance");
+                  }}
+                >
+                  Proceed to pay
+                </Button>
+              </Box>
+            </DialogActions>
+          </>
+        ) : (
+          <Typography variant="body2" textAlign="center" gutterBottom>
+            Your cart is empty.
           </Typography>
-          <Box display="flex" flexDirection="column" gap={1}>
-            <Button variant="contained" color="error" onClick={cleanCart}>
-              Empty Cart
-            </Button>
-            <Button variant="contained" color="success">
-              Proceed to pay
-            </Button>
-          </Box>
-        </DialogActions>
+        )}
       </Dialog>
 
       {cart.length !== 0 ? (

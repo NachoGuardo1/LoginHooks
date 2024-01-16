@@ -19,8 +19,13 @@ export const ProductsService = {
       import.meta.env.VITE_URL_PRODUCTOS + "products/" + productId
     );
   },
-  GET_LIMIT: () => {
-    return axios.get(import.meta.env.VITE_URL_PRODUCTOS + "products?limit=6");
+  GET_LIMIT: (limit) => {
+    return axios.get(
+      import.meta.env.VITE_URL_PRODUCTOS + "products?limit=" + limit
+    );
+  },
+  GET_SORT_PRODUCTS: () => {
+    return axios.get(import.meta.env.VITE_URL_PRODUCTOS + "products?sort=desc");
   },
   POST: () => {
     return axios.post("");

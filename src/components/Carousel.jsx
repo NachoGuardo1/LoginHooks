@@ -1,20 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import Carousel from "react-material-ui-carousel";
+import { useNavigate } from "react-router-dom";
 
 export const CarouselCards = () => {
-  // const [products, setProducts] = useState([]);
-  // useEffect(() => {
-  //   getRandom();
-  // }, []);
-  // const getRandom = async () => {
-  //   try {
-  //     const response = await ProductsService.GET_LIMIT();
-  //     setProducts(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const navigate = useNavigate();
 
   return (
     <Carousel animation="fade" autoPlay={true} indicators={false}>
@@ -25,14 +15,15 @@ export const CarouselCards = () => {
         />
         <Box
           position="absolute"
-          top="50%"
+          top="40%"
           left="5%"
           display="flex"
           flexDirection="column"
+          textAlign="left"
         >
           <Typography
             variant="h3"
-            fontSize={{ xs: "18px", md: "24px" }}
+            fontSize={{ xs: "14px", md: "24px" }}
             color="primary"
             fontWeight={750}
           >
@@ -40,9 +31,10 @@ export const CarouselCards = () => {
           </Typography>
           <Typography
             variant="h3"
-            fontSize={{ xs: "18px", md: "24px" }}
+            fontSize={{ xs: "14px", md: "24px" }}
             gutterBottom
             fontWeight={750}
+            color="white"
           >
             FASHION
           </Typography>
@@ -51,6 +43,8 @@ export const CarouselCards = () => {
             fontSize="14px"
             fontWeight={600}
             marginTop={2}
+            color="white"
+            display={{ xs: "none", md: "flex" }}
           >
             New & Fresh collection
           </Typography>
@@ -60,20 +54,28 @@ export const CarouselCards = () => {
             gutterBottom
             fontWeight={600}
             marginBottom={3}
+            color="white"
+            display={{ xs: "none", md: "flex" }}
           >
-            arrival in believe store
+            arrival in U-STORE
           </Typography>
 
-          <Button variant="contained" color="primary" size="small">
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={() => navigate(`/category/men's clothing`)}
+          >
             SHOP NOW
           </Button>
         </Box>
         <Box
           position="absolute"
-          top="50%"
+          top="40%"
           right="5%"
           display="flex"
           flexDirection="column"
+          textAlign="right"
         >
           <Typography
             variant="h3"
@@ -88,6 +90,7 @@ export const CarouselCards = () => {
             fontSize={{ xs: "14px", md: "24px" }}
             gutterBottom
             fontWeight={750}
+            color="white"
           >
             FASHION
           </Typography>
@@ -96,6 +99,8 @@ export const CarouselCards = () => {
             fontSize="14px"
             fontWeight={600}
             marginTop={2}
+            color="white"
+            display={{ xs: "none", md: "flex" }}
           >
             New & Fresh collection
           </Typography>
@@ -105,10 +110,17 @@ export const CarouselCards = () => {
             gutterBottom
             fontWeight={600}
             marginBottom={3}
+            color="white"
+            display={{ xs: "none", md: "flex" }}
           >
-            arrival in believe store
+            arrival in U-STORE
           </Typography>
-          <Button variant="contained" color="error" size="small">
+          <Button
+            variant="contained"
+            color="error"
+            size="small"
+            onClick={() => navigate(`/category/women's clothing`)}
+          >
             SHOP NOW
           </Button>
         </Box>
@@ -120,14 +132,14 @@ export const CarouselCards = () => {
         />
         <Box
           position="absolute"
-          top="50%"
+          top="40%"
           left="5%"
           display="flex"
           flexDirection="column"
         >
           <Typography
             variant="h3"
-            fontSize="24px"
+            fontSize={{ xs: "14px", md: "24px" }}
             color="primary"
             fontWeight={750}
           >
@@ -135,17 +147,20 @@ export const CarouselCards = () => {
           </Typography>
           <Typography
             variant="h3"
-            fontSize="24px"
+            fontSize={{ xs: "14px", md: "24px" }}
             gutterBottom
             fontWeight={750}
+            color="white"
           >
-            FOR ONLINE ORDER
+            FOR ELECTRONICS
           </Typography>
           <Typography
             variant="h5"
             fontSize="14px"
             fontWeight={600}
             marginTop={2}
+            color="white"
+            display={{ xs: "none", md: "flex" }}
           >
             New & Fresh collection
           </Typography>
@@ -155,10 +170,17 @@ export const CarouselCards = () => {
             gutterBottom
             fontWeight={600}
             marginBottom={3}
+            color="white"
+            display={{ xs: "none", md: "flex" }}
           >
-            arrival in believe store
+            arrival in U-STORE
           </Typography>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(`/category/electronics`)}
+            size="small"
+          >
             SHOP NOW
           </Button>
         </Box>

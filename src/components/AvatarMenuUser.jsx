@@ -46,7 +46,7 @@ export const AvatarMenuUser = () => {
           }}
         >
           {userLogged ? (
-            <Typography variant="body1" textAlign="center" fontWeight={600}>
+            <Typography variant="body1" textAlign="center">
               {userData.nombre.slice(0, 1)}
               {userData.apellido.slice(0, 1)}
             </Typography>

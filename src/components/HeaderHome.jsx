@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Box, IconButton, Skeleton, Typography } from "@mui/material";
+import { Box, Button, Skeleton, Tab, Tabs } from "@mui/material";
 import { ProductsService } from "../services/ProductsService";
 import { CategoriesReducer } from "../reducers/CategoriesReducer";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,12 @@ import { useNavigate } from "react-router-dom";
 export const HeaderHome = () => {
   const [state, dispatch] = CategoriesReducer();
   const navigate = useNavigate();
+
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     getCategories();
@@ -24,32 +30,43 @@ export const HeaderHome = () => {
   return (
     <Box
       sx={{
-        display: { xs: "none", md: "flex" },
-        justifyContent: "space-around",
+        display: { xs: "none", md: "block" },
+        borderBottom: 1,
+        borderColor: "divider",
       }}
     >
-      {state.loading
-        ? Array.from({ length: 4 }).map((_, index) => (
-            <Skeleton
-              variant="text"
-              sx={{ fontSize: "1rem", width: 100 }}
-              key={index}
-            />
-          ))
-        : state.categories.map((category, index) => (
-            <IconButton
-              key={index}
-              onClick={() => navigate(`/category/${category.toString()}`)}
-            >
-              <Typography
-                variant="body2"
-                fontWeight={600}
-                sx={{ fontFamily: "monospace" }}
+      <Box
+        value={value}
+        onChange={handleChange}
+        aria-label="basic tabs example"
+        width="100%"
+        display="flex"
+        justifyContent="center"
+        gap={5}
+      >
+        {state.loading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1rem", width: 100 }}
+                key={index}
+              />
+            ))
+          : state.categories.map((category, index) => (
+              <Button
+                key={index}
+                onClick={() => navigate(`/category/${category.toString()}`)}
+                sx={{
+                  fontSize: "14px",
+                  fontWeight: 550,
+                  color: "text.primary",
+                  fontFamily: "monospace",
+                }}
               >
-                {category.toUpperCase()}
-              </Typography>
-            </IconButton>
-          ))}
+                {category}
+              </Button>
+            ))}
+      </Box>
     </Box>
   );
 };

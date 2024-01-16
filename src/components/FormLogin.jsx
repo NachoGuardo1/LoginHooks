@@ -50,13 +50,13 @@ export const FormLogin = () => {
   };
 
   return (
-    <Container maxWidth="xs" component="main">
+    <Container maxWidth="sm" component="main">
       <Box
         sx={{
-          marginTop: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          marginTop: 3,
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: blue[700] }}>

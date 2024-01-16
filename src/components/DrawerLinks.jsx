@@ -78,8 +78,12 @@ export const MenuDrawerLinks = () => {
                     <Typography
                       variant="body2"
                       fontWeight={600}
-                      sx={{ fontFamily: "monospace", textAlign: "start" }}
-                      color={"text.secondary"}
+                      sx={{
+                        fontFamily: "monospace",
+                        textAlign: "start",
+                        fontSize: "14px",
+                      }}
+                      color={"text.primary"}
                     >
                       {category.toUpperCase()}
                     </Typography>

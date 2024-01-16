@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import AdbIcon from "@mui/icons-material/Adb";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 import { DialogCart } from "./DialogCart";
 import { HeaderHome } from "./HeaderHome";
 import { SearchNav } from "./SearchNav";
@@ -16,6 +16,7 @@ import { DrawerSearcMob } from "./DrawerSearcMob";
 import { AvatarMenuUser } from "./AvatarMenuUser";
 import { MenuDrawerLinks } from "./DrawerLinks";
 import { FavsLink } from "./FavsLink";
+import { Outlet } from "react-router-dom";
 
 export const NavBarApp = () => {
   //SEARCHMOBILE
@@ -26,7 +27,7 @@ export const NavBarApp = () => {
 
   return (
     <>
-      <AppBar position="sticky" color="inherit" sx={{ marginBottom: 3 }}>
+      <AppBar position="sticky" color="inherit">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             {/* BOX lg */}
@@ -48,7 +49,7 @@ export const NavBarApp = () => {
                   alignItems: "center",
                 }}
               >
-                <AdbIcon sx={{ mr: 1 }} />
+                <StorefrontIcon sx={{ mr: 1 }} />
                 <Typography
                   variant="h6"
                   noWrap
@@ -63,7 +64,7 @@ export const NavBarApp = () => {
                     textDecoration: "none",
                   }}
                 >
-                  LOGO
+                  U-STORE
                 </Typography>
               </Box>
               {/* SEARCH */}
@@ -114,12 +115,12 @@ export const NavBarApp = () => {
                     mr: 2,
                     fontFamily: "monospace",
                     fontWeight: 700,
-                    letterSpacing: ".3rem",
+                    letterSpacing: ".1rem",
                     color: "inherit",
                     textDecoration: "none",
                   }}
                 >
-                  LOGO
+                  U-STORE
                 </Typography>
               </Box>
               {/* ACTIONS */}
@@ -134,6 +135,7 @@ export const NavBarApp = () => {
         <HeaderHome />
         {search && <DrawerSearcMob />}
       </AppBar>
+      <Outlet />
     </>
   );
 };

@@ -74,13 +74,13 @@ export const FormRegister = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <Box
         sx={{
-          marginTop: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          marginTop: 3,
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: blue[700] }}>

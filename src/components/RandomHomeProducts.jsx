@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { ProductsService } from "../services/ProductsService";
-import { Divider, Grid, IconButton, Typography } from "@mui/material";
-
-import { useNavigate } from "react-router-dom";
-import { ProductsReducer } from "../reducers/ProductsReducer";
-import { SkeletonCard } from "./SkeletonCard";
 import { CardProductsDefault } from "./CardProductsDefault";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { useNavigate } from "react-router-dom";
+import { Divider, Grid, IconButton, Typography } from "@mui/material";
+import { SkeletonCard } from "./SkeletonCard";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { ProductsService } from "../services/ProductsService";
+import { ProductsReducer } from "../reducers/ProductsReducer";
 
-export const ProductList = () => {
+export const RandomHomeProducts = () => {
   const [state, dispatch] = ProductsReducer();
-  const navigate = useNavigate();
-  const [expand, setExpand] = useState(false);
 
+  const navigate = useNavigate();
   useEffect(() => {
     getProducts();
   }, []);
   const getProducts = async () => {
     try {
-      const response = await ProductsService.GET();
-      dispatch({ type: "FETCH_SUCCESS", payload: response.data });
+      const resp = await ProductsService.GET_SORT_PRODUCTS();
+      dispatch({ type: "FETCH_SUCCESS", payload: resp.data });
     } catch (error) {
       dispatch({ type: "FETCH_ERROR" });
       navigate("/error");
     }
   };
-
   return (
     <>
       <Divider textAlign="left" sx={{ marginY: 3 }}>
@@ -41,24 +37,18 @@ export const ProductList = () => {
             textDecoration: "none",
           }}
         >
-          All products
-          <IconButton onClick={() => setExpand(!expand)}>
-            {expand ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          Top Sells
+          <IconButton disabled>
+            <StarBorderIcon />
           </IconButton>
         </Typography>
       </Divider>
       <Grid container justifyContent="center" gap={2} marginTop={3}>
         {state.loading
-          ? Array.from({ length: 6 }).map((_, index) => (
+          ? Array.from({ length: 4 }).map((_, index) => (
               <SkeletonCard key={index} />
             ))
-          : expand
-          ? state.products.map((prod) => (
-              <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={prod.id}>
-                <CardProductsDefault product={prod} />
-              </Grid>
-            ))
-          : state.products.slice(0, 4).map((prod) => (
+          : state.products.slice(4, 8).map((prod) => (
               <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={prod.id}>
                 <CardProductsDefault product={prod} />
               </Grid>
