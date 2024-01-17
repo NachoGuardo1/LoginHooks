@@ -37,7 +37,7 @@ export const RandomHomeProducts = () => {
             textDecoration: "none",
           }}
         >
-          Top Sells
+          Best sellers
           <IconButton disabled>
             <StarBorderIcon />
           </IconButton>

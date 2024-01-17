@@ -14,7 +14,7 @@ import Logout from "@mui/icons-material/Logout";
 import Settings from "@mui/icons-material/Settings";
 import { authContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { blue } from "@mui/material/colors";
+import { blue, pink } from "@mui/material/colors";
 
 export const AvatarMenuUser = () => {
   const { userData, userLogged, onLogout } = useContext(authContext);
@@ -38,20 +38,28 @@ export const AvatarMenuUser = () => {
         aria-label="menu"
         onClick={handleClick}
       >
-        <Avatar
-          sx={{
-            width: { xs: 24, md: 30 },
-            height: { xs: 24, md: 30 },
-            bgcolor: blue[700],
-          }}
-        >
-          {userLogged ? (
+        {userLogged ? (
+          <Avatar
+            sx={{
+              width: { xs: 24, md: 30 },
+              height: { xs: 24, md: 30 },
+              bgcolor: "#f44336",
+            }}
+          >
             <Typography variant="body1" textAlign="center">
               {userData.nombre.slice(0, 1)}
               {userData.apellido.slice(0, 1)}
             </Typography>
-          ) : null}
-        </Avatar>
+          </Avatar>
+        ) : (
+          <Avatar
+            sx={{
+              width: { xs: 24, md: 30 },
+              height: { xs: 24, md: 30 },
+              bgcolor: blue[700],
+            }}
+          />
+        )}
       </IconButton>
       <Menu
         anchorEl={anchorEl}

@@ -89,7 +89,7 @@ export const FormRegister = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" onSubmit={onSubmit} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField

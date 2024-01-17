@@ -32,6 +32,10 @@ export const MenuDrawerLinks = () => {
   };
   //DRAWER
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const handleClick = (category) => {
+    navigate(`/category/${category.toString()}`);
+    setDrawerOpen(false);
+  };
   return (
     <>
       <IconButton
@@ -72,16 +76,14 @@ export const MenuDrawerLinks = () => {
               ))
             : state.categories.map((category, index) => (
                 <ListItem key={index}>
-                  <Button
-                    onClick={() => navigate(`/category/${category.toString()}`)}
-                  >
+                  <Button onClick={() => handleClick(category)}>
                     <Typography
                       variant="body2"
                       fontWeight={600}
                       sx={{
                         fontFamily: "monospace",
                         textAlign: "start",
-                        fontSize: "14px",
+                        fontSize: "12px",
                       }}
                       color={"text.primary"}
                     >

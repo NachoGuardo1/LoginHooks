@@ -52,7 +52,7 @@ export const SearchNav = () => {
               type: "search",
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon />
+                  <SearchIcon sx={{ display: { xs: "none", md: "flex" } }} />
                 </InputAdornment>
               ),
             }}
