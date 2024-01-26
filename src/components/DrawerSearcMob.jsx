@@ -1,11 +1,16 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { SearchNav } from "./SearchNav";
+import { SearcApp } from "./SearcApp";
 
 export const DrawerSearcMob = () => {
   return (
-    <Box width="100%" display="flex" justifyContent="center" padding={1}>
-      <SearchNav />
+    <Box
+      width="100%"
+      display={{ xs: "flex", md: "none" }}
+      justifyContent="center"
+      padding={1}
+    >
+      <SearcApp />
     </Box>
   );
 };

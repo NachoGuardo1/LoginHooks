@@ -3,7 +3,6 @@ import {
   Box,
   Divider,
   IconButton,
-  ListItemButton,
   ListItemIcon,
   Menu,
   MenuItem,
@@ -14,7 +13,8 @@ import Logout from "@mui/icons-material/Logout";
 import Settings from "@mui/icons-material/Settings";
 import { authContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { blue, pink } from "@mui/material/colors";
+import { blue } from "@mui/material/colors";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 export const AvatarMenuUser = () => {
   const { userData, userLogged, onLogout } = useContext(authContext);
@@ -29,6 +29,7 @@ export const AvatarMenuUser = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
       <IconButton
@@ -71,29 +72,52 @@ export const AvatarMenuUser = () => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {userLogged ? (
-          <Box>
-            <MenuItem onClick={handleClose}>
-              <Typography variant="caption" fontWeight={600}>
-                {userData.nombre + " " + userData.apellido}
-              </Typography>
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <Settings fontSize="small" sx={{ mr: 1 }} />
-                Settings
-              </ListItemIcon>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon onClick={onLogout}>
-                <Logout fontSize="small" sx={{ mr: 1 }} />
-                Logout
-              </ListItemIcon>
-            </MenuItem>
-          </Box>
+          userData.rol === "ADMIN" ? (
+            <Box>
+              <MenuItem>
+                <Typography variant="caption" fontWeight={600}>
+                  {userData.nombre + " " + userData.apellido}
+                </Typography>
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={() => navigate("/dashboard")}>
+                <ListItemIcon>
+                  <DashboardIcon fontSize="small" sx={{ mr: 1 }} />
+                  Dashboard
+                </ListItemIcon>
+              </MenuItem>
+              <MenuItem onClick={onLogout}>
+                <ListItemIcon>
+                  <Logout fontSize="small" sx={{ mr: 1 }} />
+                  Logout
+                </ListItemIcon>
+              </MenuItem>
+            </Box>
+          ) : (
+            <Box>
+              <MenuItem>
+                <Typography variant="caption" fontWeight={600}>
+                  {userData.nombre + " " + userData.apellido}
+                </Typography>
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Settings fontSize="small" sx={{ mr: 1 }} />
+                  Settings
+                </ListItemIcon>
+              </MenuItem>
+              <MenuItem onClick={onLogout}>
+                <ListItemIcon>
+                  <Logout fontSize="small" sx={{ mr: 1 }} />
+                  Logout
+                </ListItemIcon>
+              </MenuItem>
+            </Box>
+          )
         ) : (
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon onClick={() => navigate("/login")}>
+          <MenuItem onClick={() => navigate("/login")}>
+            <ListItemIcon>
               <Logout fontSize="small" sx={{ mr: 1 }} />
               Login
             </ListItemIcon>

@@ -65,7 +65,7 @@ export const DialogDescription = ({ product }) => {
             >
               ${product.price}
             </Typography>
-            <RatingProduct />
+            <RatingProduct rate={product.rating} />
             <Typography
               variant="body1"
               fontSize="14px"

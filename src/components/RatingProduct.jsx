@@ -1,12 +1,11 @@
 import { Rating } from "@mui/material";
 import React from "react";
 
-export const RatingProduct = () => {
-  const value = 3 + Math.random() * 2;
+export const RatingProduct = ({ rate }) => {
   return (
     <Rating
       name="simple-controlled"
-      value={value}
+      value={rate}
       readOnly
       precision={0.5}
       size="small"

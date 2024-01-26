@@ -14,6 +14,7 @@ import {
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { DialogConfirmation } from "./DialogConfirmation";
 
 export const TableCart = () => {
   const { cart, addToCart, removeFromCart, deductProduct } =
@@ -24,12 +25,13 @@ export const TableCart = () => {
     }
     return title;
   };
+  const [openClean, setOpenClean] = React.useState(false);
   return (
     <Table container component={Paper}>
       <Table size="medium">
         <TableBody>
           {cart.map((itemCart) => (
-            <TableRow key={itemCart.id} hover>
+            <TableRow key={itemCart._id} hover>
               <Grid
                 container
                 display="flex"
@@ -119,12 +121,16 @@ export const TableCart = () => {
                   <IconButton
                     color="error"
                     size="small"
-                    onClick={() => {
-                      removeFromCart(itemCart.id);
-                    }}
+                    onClick={() => setOpenClean(true)}
                   >
                     <DeleteOutlineIcon fontSize="small" />
                   </IconButton>
+                  <DialogConfirmation
+                    title="Are you sure?"
+                    functionConfirm={() => removeFromCart(itemCart._id)}
+                    openClean={openClean}
+                    setOpenClean={setOpenClean}
+                  />
                 </TableCell>
               </Grid>
             </TableRow>

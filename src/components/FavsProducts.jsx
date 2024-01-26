@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 
 import { productsContext } from "../context/ProductsContext";
 import { CardProductsDefault } from "./CardProductsDefault";
+import { useNavigate } from "react-router-dom";
 
 export const FavsProducts = () => {
   const { favs } = useContext(productsContext);
+  const navigate = useNavigate();
 
   return (
     <Grid container justifyContent="center" gap={2} marginTop={3}>
@@ -27,14 +29,36 @@ export const FavsProducts = () => {
           </Typography>
         </Divider>
       </Box>
-      {favs ? (
+      {favs.length > 0 ? (
         favs.map((prod) => (
-          <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={prod.id}>
+          <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={prod._id}>
             <CardProductsDefault product={prod} />
           </Grid>
         ))
       ) : (
-        <Typography>vacio</Typography>
+        <Grid
+          item
+          xs={10}
+          sm={5.5}
+          md={3.5}
+          lg={2.5}
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Typography
+            color={"text.primary"}
+            fontWeight={550}
+            fontFamily={"monospace"}
+            variant="body2"
+            textAlign="center"
+          >
+            You don't have favorite products
+          </Typography>
+          <Button onClick={() => navigate("/")}>Go Back Home</Button>
+        </Grid>
       )}
     </Grid>
   );

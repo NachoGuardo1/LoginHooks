@@ -9,10 +9,10 @@ const ProductsProvider = ({ children }) => {
   const [favs, setFavs] = useState(localFavs);
 
   const addToCart = (item) => {
-    const inCart = cart.find((i) => i.id === item.id);
+    const inCart = cart.find((i) => i._id === item._id);
     if (inCart) {
       const newCart = cart.map((product) => {
-        if (product.id === item.id) {
+        if (product._id === item._id) {
           return { ...product, quantity: product.quantity + 1 };
         }
         return product;
@@ -26,7 +26,7 @@ const ProductsProvider = ({ children }) => {
     }
   };
   const removeFromCart = (productId) => {
-    const newCart = cart.filter((p) => p.id !== productId);
+    const newCart = cart.filter((p) => p._id !== productId);
     setCart(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart));
   };
@@ -40,16 +40,16 @@ const ProductsProvider = ({ children }) => {
     localStorage.setItem("favs", JSON.stringify(newFavs));
   };
   const removeFromFavs = (productId) => {
-    const newFavs = favs.filter((item) => item.id !== productId);
+    const newFavs = favs.filter((item) => item._id !== productId);
     setFavs(newFavs);
     localStorage.setItem("favs", JSON.stringify(newFavs));
   };
 
   const deductProduct = (item) => {
-    const selectedItem = cart.find((i) => i.id === item.id);
+    const selectedItem = cart.find((i) => i._id === item._id);
     if (selectedItem) {
       const newCart = cart.map((product) => {
-        if (product.id === item.id && product.quantity > 1) {
+        if (product._id === item._id && product.quantity > 1) {
           return { ...product, quantity: product.quantity - 1 };
         }
         return product;

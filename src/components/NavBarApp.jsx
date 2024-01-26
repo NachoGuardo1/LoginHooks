@@ -10,13 +10,13 @@ import { useState } from "react";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import { DialogCart } from "./DialogCart";
 import { HeaderHome } from "./HeaderHome";
-import { SearchNav } from "./SearchNav";
 import SearchIcon from "@mui/icons-material/Search";
 import { DrawerSearcMob } from "./DrawerSearcMob";
 import { AvatarMenuUser } from "./AvatarMenuUser";
 import { MenuDrawerLinks } from "./DrawerLinks";
 import { FavsLink } from "./FavsLink";
 import { Outlet } from "react-router-dom";
+import { SearcApp } from "./SearcApp";
 
 export const NavBarApp = () => {
   //SEARCHMOBILE
@@ -69,7 +69,7 @@ export const NavBarApp = () => {
               </Box>
               {/* SEARCH */}
               <Box>
-                <SearchNav />
+                <SearcApp />
               </Box>
               {/* ACTIONS */}
               <Box sx={{ display: "flex", gap: 1 }}>

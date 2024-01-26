@@ -15,10 +15,12 @@ import React, { useContext, useState } from "react";
 import { productsContext } from "../context/ProductsContext";
 import { TableCart } from "./TableCart";
 import CloseIcon from "@mui/icons-material/Close";
+import { DialogConfirmation } from "./DialogConfirmation";
 
 export const DialogCart = () => {
   const { cart, total, cleanCart } = useContext(productsContext);
   const [open, setOpen] = useState(false);
+  const [openClean, setOpenClean] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,9 +60,19 @@ export const DialogCart = () => {
                 Grand Total: ${total.toFixed(2)}
               </Typography>
               <Box display="flex" flexDirection="column" gap={1}>
-                <Button variant="contained" color="error" onClick={cleanCart}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => setOpenClean(true)}
+                >
                   Empty Cart
                 </Button>
+                <DialogConfirmation
+                  title="Are you sure?"
+                  functionConfirm={cleanCart}
+                  openClean={openClean}
+                  setOpenClean={setOpenClean}
+                />
                 <Button
                   variant="contained"
                   color="success"

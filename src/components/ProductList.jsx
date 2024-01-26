@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { ProductsService } from "../services/ProductsService";
 import { Divider, Grid, IconButton, Typography } from "@mui/material";
-
 import { useNavigate } from "react-router-dom";
 import { ProductsReducer } from "../reducers/ProductsReducer";
 import { SkeletonCard } from "./SkeletonCard";
 import { CardProductsDefault } from "./CardProductsDefault";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { BestSellers } from "./BestSellers";
 
 export const ProductList = () => {
   const [state, dispatch] = ProductsReducer();
   const navigate = useNavigate();
-  const [expand, setExpand] = useState(false);
+  const [expandAll, setExpandAll] = useState(false);
 
   useEffect(() => {
     getProducts();
@@ -20,7 +20,7 @@ export const ProductList = () => {
   const getProducts = async () => {
     try {
       const response = await ProductsService.GET();
-      dispatch({ type: "FETCH_SUCCESS", payload: response.data });
+      dispatch({ type: "FETCH_SUCCESS", payload: response.data.products });
     } catch (error) {
       dispatch({ type: "FETCH_ERROR" });
       navigate("/error");
@@ -42,8 +42,8 @@ export const ProductList = () => {
           }}
         >
           All products
-          <IconButton onClick={() => setExpand(!expand)}>
-            {expand ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          <IconButton onClick={() => setExpandAll(!expandAll)}>
+            {expandAll ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </IconButton>
         </Typography>
       </Divider>
@@ -52,18 +52,19 @@ export const ProductList = () => {
           ? Array.from({ length: 6 }).map((_, index) => (
               <SkeletonCard key={index} />
             ))
-          : expand
+          : expandAll
           ? state.products.map((prod) => (
-              <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={prod.id}>
+              <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={prod._id}>
                 <CardProductsDefault product={prod} />
               </Grid>
             ))
           : state.products.slice(0, 4).map((prod) => (
-              <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={prod.id}>
+              <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={prod._id}>
                 <CardProductsDefault product={prod} />
               </Grid>
             ))}
       </Grid>
+      <BestSellers />
     </>
   );
 };

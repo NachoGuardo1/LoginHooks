@@ -11,6 +11,8 @@ import { FavsPage } from "./pages/FavsPage";
 import { ProductsDetails } from "./components/ProductsDetails";
 import { ProductCategory } from "./components/ProductCategory";
 import { FooterApp } from "./components/FooterApp";
+import { Dashboard } from "./pages/Dashboard";
+import { AdminRoute } from "./private-routes/AdminRoute";
 
 function App() {
   return (
@@ -26,6 +28,14 @@ function App() {
               <Route path="*" element={<Error />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <AdminRoute>
+                    <Dashboard />
+                  </AdminRoute>
+                }
+              />
             </Route>
           </Routes>
           <FooterApp />

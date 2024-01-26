@@ -45,7 +45,7 @@ export const ProductsDetails = () => {
               style={{ width: 300, height: 300, objectFit: "contain" }}
             />
           </Box>
-          <Box>
+          <Box padding={3}>
             <Typography
               variant="h2"
               fontSize="25px"
@@ -76,7 +76,7 @@ export const ProductsDetails = () => {
             >
               ${state.products.price}
             </Typography>
-            <RatingProduct />
+            <RatingProduct rate={state.products.rating} />
             <Typography
               variant="body1"
               fontSize="14px"
@@ -88,11 +88,11 @@ export const ProductsDetails = () => {
               {state.products.description}
             </Typography>
             <Box sx={{ display: "flex", justifyContent: "end", mt: 3 }}>
-              {cart.find((item) => item.id === state.products.id) ? (
+              {cart.find((item) => item._id === state.products._id) ? (
                 <Button
                   variant="contained"
                   color="error"
-                  onClick={() => removeFromCart(state.products.id)}
+                  onClick={() => removeFromCart(state.products._id)}
                 >
                   REMOVE FROM CART
                 </Button>

@@ -38,11 +38,11 @@ export const CardProductsDefault = ({ product }) => {
           margin: 1,
         }}
       >
-        {favs.find((item) => item.id === product.id) ? (
+        {favs.find((item) => item._id === product._id) ? (
           <Fab
             size="small"
             color="error"
-            onClick={() => removeFromFavs(product.id)}
+            onClick={() => removeFromFavs(product._id)}
           >
             <FavoriteIcon size="small" />
           </Fab>
@@ -72,7 +72,7 @@ export const CardProductsDefault = ({ product }) => {
           >
             {truncateTitle(product.title, 20)}
           </Typography>
-          <RatingProduct marginBottom={1} />
+          <RatingProduct marginBottom={1} rate={product.rating} />
           <Typography
             variant="body1"
             color="error"
@@ -92,10 +92,10 @@ export const CardProductsDefault = ({ product }) => {
             alignItems: "end",
           }}
         >
-          {cart.find((item) => item.id === product.id) ? (
+          {cart.find((item) => item._id === product._id) ? (
             <IconButton
               aria-label="share"
-              onClick={() => removeFromCart(product.id)}
+              onClick={() => removeFromCart(product._id)}
             >
               <Badge>
                 <RemoveShoppingCartIcon color="error" />
