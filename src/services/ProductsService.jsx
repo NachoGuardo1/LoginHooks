@@ -18,6 +18,11 @@ export const ProductsService = {
   GET_LIMIT: (limit) => {
     return axios.get(import.meta.env.VITE_URL + "products?limit=" + limit);
   },
+  GET_PAGINATION: (skip, limit) => {
+    return axios.get(
+      import.meta.env.VITE_URL + "products?skip=" + skip + "&limit=" + limit
+    );
+  },
   GET_QUERY: (searchTerm) => {
     return axios.get(
       import.meta.env.VITE_URL + "products?searchTerm=" + searchTerm

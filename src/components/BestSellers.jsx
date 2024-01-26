@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CardProductsDefault } from "./CardProductsDefault";
-import { Divider, Grid, IconButton, Typography } from "@mui/material";
+import { Button, Divider, Grid, IconButton, Typography } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { SkeletonCard } from "./SkeletonCard";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -17,7 +17,7 @@ export const BestSellers = () => {
   }, []);
   const getProducts = async () => {
     try {
-      const response = await ProductsService.GET_SORT_TERM("rating");
+      const response = await ProductsService.GET_SORT_TERM("rating&limit=4");
       dispatch({ type: "FETCH_SUCCESS", payload: response.data.products });
     } catch (error) {
       dispatch({ type: "FETCH_ERROR" });
@@ -42,9 +42,6 @@ export const BestSellers = () => {
           Best sellers
           <IconButton disabled>
             <StarBorderIcon />
-          </IconButton>
-          <IconButton onClick={() => setExpand(!expand)}>
-            {expand ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </IconButton>
         </Typography>
       </Divider>

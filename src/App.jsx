@@ -13,6 +13,7 @@ import { ProductCategory } from "./components/ProductCategory";
 import { FooterApp } from "./components/FooterApp";
 import { Dashboard } from "./pages/Dashboard";
 import { AdminRoute } from "./private-routes/AdminRoute";
+import { AllProductsPage } from "./pages/AllProductsPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Routes>
             <Route path="/" element={<NavBarApp />}>
               <Route index element={<HomePage />} />
+              <Route path="/allprods" element={<AllProductsPage />} />
               <Route path="/details/:productId" element={<ProductsDetails />} />
               <Route path="/category/:category" element={<ProductCategory />} />
               <Route path="/favs" element={<FavsPage />} />
