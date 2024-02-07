@@ -17,6 +17,7 @@ export const FilterMenu = ({ handleTerm }) => {
   const [open2, setOpen2] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
+  const [order, setOrder] = useState("");
 
   const handleClick = (event) => {
     setAnchorEl(event.target);
@@ -26,6 +27,11 @@ export const FilterMenu = ({ handleTerm }) => {
   };
 
   const handleChangueTerm = (term, direction) => {
+    if (direction === "desc") {
+      setOrder(`Highest ${term}s`);
+    } else {
+      setOrder(`Lowest ${term}s`);
+    }
     handleTerm(term, direction);
     handleClose();
   };
@@ -44,7 +50,7 @@ export const FilterMenu = ({ handleTerm }) => {
       aria-labelledby="nested-list-subheader"
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
-          Order By
+          Order By: {order.toUpperCase()}
           <IconButton onClick={handleClick}>
             <MoreVertIcon />
           </IconButton>

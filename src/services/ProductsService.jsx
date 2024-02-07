@@ -52,6 +52,7 @@ export const ProductsService = {
       import.meta.env.VITE_URL +
         "products?sortBy=" +
         sortTerm +
+        "&sort=desc" +
         "&skip=" +
         skip +
         "&limit=" +
