@@ -60,7 +60,7 @@ export const ProductList = () => {
               <SkeletonCard key={index} />
             ))
           : state.products.map((prod) => (
-              <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={prod._id}>
+              <Grid item xs={5.5} sm={5.5} md={3.5} lg={2.5} key={prod._id}>
                 <CardProductsDefault product={prod} />
               </Grid>
             ))}

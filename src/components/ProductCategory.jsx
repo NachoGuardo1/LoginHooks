@@ -10,6 +10,7 @@ import {
   Fab,
   Grid,
   IconButton,
+  Pagination,
   Typography,
 } from "@mui/material";
 import { SkeletonCard } from "./SkeletonCard";
@@ -21,6 +22,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { RatingProduct } from "./RatingProduct";
 import { ProductsReducer } from "../reducers/ProductsReducer";
+import { FilterMenu } from "./FilterMenu";
 
 export const ProductCategory = () => {
   const { addToCart, removeFromCart, cart, favs, addToFavs, removeFromFavs } =
@@ -29,24 +31,58 @@ export const ProductCategory = () => {
   const [state, dispatch] = ProductsReducer();
   const navigate = useNavigate();
 
+  const [term, setTerm] = useState("");
+  const [direction, setDirection] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalProds, setTotalProds] = useState(0);
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const productsQuantityPage = 4;
+  const skip = (currentPage - 1) * productsQuantityPage;
+  const limit = productsQuantityPage;
+  const totalPages = Math.ceil(totalProds / productsQuantityPage);
+
   useEffect(() => {
     getProductCategory();
+  }, [category, term, direction, currentPage]);
+  useEffect(() => {
+    setCurrentPage(1);
   }, [category]);
+
   const getProductCategory = async () => {
     try {
-      const resp = await ProductsService.GET_IN_CATEGORIES(category);
-      dispatch({ type: "FETCH_SUCCESS", payload: resp.data });
+      const resp = await ProductsService.GET_IN_CATEGORIES(
+        category,
+        skip,
+        limit,
+        term,
+        direction
+      );
+      const { total, products } = resp.data;
+      setTotalProds(total);
+      dispatch({ type: "FETCH_SUCCESS", payload: products });
     } catch (error) {
       dispatch({ type: "FETCH_ERROR" });
       navigate("/error");
     }
   };
+
   const truncateTitle = (title, maxLength) => {
     if (title.length > maxLength) {
       return title.substring(0, maxLength) + "...";
     }
     return title;
   };
+
+  const handleTerm = (term, direction) => {
+    setTerm(term);
+    setDirection(direction);
+    setCurrentPage(1);
+  };
+
   return (
     <>
       <Box
@@ -66,6 +102,9 @@ export const ProductCategory = () => {
             {category.toUpperCase()}{" "}
           </Typography>
         </Divider>
+        <Box display="flex" justifyContent="end">
+          <FilterMenu handleTerm={handleTerm} />
+        </Box>
       </Box>
       <Grid container justifyContent="center" gap={2} marginTop={3}>
         {state.loading
@@ -73,7 +112,7 @@ export const ProductCategory = () => {
               <SkeletonCard key={index} />
             ))
           : state.products.map((product) => (
-              <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={product._id}>
+              <Grid item xs={5.5} sm={5.5} md={3.5} lg={2.5} key={product._id}>
                 <Card sx={{ maxHeight: 450 }}>
                   {/* BTN FAV Y MORE */}
                   <Box
@@ -102,7 +141,11 @@ export const ProductCategory = () => {
                   {/* IMAGEN */}
                   <CardMedia
                     component="img"
-                    sx={{ height: 200, width: "100%", objectFit: "contain" }}
+                    sx={{
+                      height: { xs: 100, sm: 200 },
+                      width: "100%",
+                      objectFit: "contain",
+                    }}
                     image={product.image}
                   />
                   {/* TITULO Y PRECIO */}
@@ -163,6 +206,14 @@ export const ProductCategory = () => {
               </Grid>
             ))}
       </Grid>
+      <Box display="flex" justifyContent="center" marginY={4}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={handleChange}
+          color="primary"
+        />
+      </Box>
     </>
   );
 };

@@ -56,7 +56,11 @@ export const CardProductsDefault = ({ product }) => {
       {/* IMAGEN */}
       <CardMedia
         component="img"
-        sx={{ height: 200, width: "100%", objectFit: "contain" }}
+        sx={{
+          height: { xs: 100, sm: 200 },
+          width: "100%",
+          objectFit: "contain",
+        }}
         image={product.image}
       />
       {/* TITULO Y PRECIO */}

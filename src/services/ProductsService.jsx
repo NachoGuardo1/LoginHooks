@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sortBy } from "lodash";
 
 export const ProductsService = {
   GET: () => {
@@ -7,9 +8,19 @@ export const ProductsService = {
   GET_CATEGORIES: () => {
     return axios.get(import.meta.env.VITE_URL + "products/categories");
   },
-  GET_IN_CATEGORIES: (category) => {
+  GET_IN_CATEGORIES: (category, skip, limit, term, direction) => {
     return axios.get(
-      import.meta.env.VITE_URL + "products/category/" + category
+      import.meta.env.VITE_URL +
+        "products/category/" +
+        category +
+        "?skip=" +
+        skip +
+        "&limit=" +
+        limit +
+        "&sortBy=" +
+        term +
+        "&sort=" +
+        direction
     );
   },
   GET_BY_ID: (productId) => {
@@ -18,9 +29,17 @@ export const ProductsService = {
   GET_LIMIT: (limit) => {
     return axios.get(import.meta.env.VITE_URL + "products?limit=" + limit);
   },
-  GET_PAGINATION: (skip, limit) => {
+  GET_PAGINATION: (skip, limit, term, direction) => {
     return axios.get(
-      import.meta.env.VITE_URL + "products?skip=" + skip + "&limit=" + limit
+      import.meta.env.VITE_URL +
+        "products?skip=" +
+        skip +
+        "&limit=" +
+        limit +
+        "&sortBy=" +
+        term +
+        "&sort=" +
+        direction
     );
   },
   GET_QUERY: (searchTerm) => {
@@ -28,8 +47,16 @@ export const ProductsService = {
       import.meta.env.VITE_URL + "products?searchTerm=" + searchTerm
     );
   },
-  GET_SORT_TERM: (sortTerm) => {
-    return axios.get(import.meta.env.VITE_URL + "products?sortBy=" + sortTerm);
+  GET_SORT_TERM: (sortTerm, skip, limit) => {
+    return axios.get(
+      import.meta.env.VITE_URL +
+        "products?sortBy=" +
+        sortTerm +
+        "&skip=" +
+        skip +
+        "&limit=" +
+        limit
+    );
   },
 
   POST: (data) => {

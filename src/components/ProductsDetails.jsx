@@ -42,7 +42,11 @@ export const ProductsDetails = () => {
           >
             <img
               src={state.products.image}
-              style={{ width: 300, height: 300, objectFit: "contain" }}
+              style={{
+                width: { xs: 150, sm: 300 },
+                height: 300,
+                objectFit: "contain",
+              }}
             />
           </Box>
           <Box padding={3}>

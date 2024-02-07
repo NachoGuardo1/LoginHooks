@@ -3,7 +3,7 @@ import React from "react";
 
 export const SkeletonCard = () => {
   return (
-    <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} sx={{ height: 350 }}>
+    <Grid item xs={5.5} sm={5.5} md={3.5} lg={2.5} sx={{ height: 350 }}>
       <Skeleton
         variant="rounded"
         width="100%"

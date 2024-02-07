@@ -12,7 +12,7 @@ import { Divider, IconButton, Menu } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import StarIcon from "@mui/icons-material/Star";
 
-export const FilterMenu = () => {
+export const FilterMenu = ({ handleTerm }) => {
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -23,6 +23,11 @@ export const FilterMenu = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleChangueTerm = (term, direction) => {
+    handleTerm(term, direction);
+    handleClose();
   };
 
   return (
@@ -61,10 +66,16 @@ export const FilterMenu = () => {
         </ListItemButton>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              onClick={() => handleChangueTerm("price", "desc")}
+            >
               <ListItemText secondary="Highest prices first" />
             </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              onClick={() => handleChangueTerm("price", "asc")}
+            >
               <ListItemText secondary="Lowest prices first" />
             </ListItemButton>{" "}
           </List>
@@ -79,10 +90,16 @@ export const FilterMenu = () => {
         </ListItemButton>
         <Collapse in={open2} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              onClick={() => handleChangueTerm("rating", "desc")}
+            >
               <ListItemText secondary="Top-rated first" />
             </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              onClick={() => handleChangueTerm("rating", "asc")}
+            >
               <ListItemText secondary="Lowest-rated first" />
             </ListItemButton>{" "}
           </List>

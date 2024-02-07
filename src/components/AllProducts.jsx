@@ -18,18 +18,32 @@ export const AllProducts = () => {
     setCurrentPage(value);
   };
 
+  const [term, setTerm] = useState("");
+  const [direction, setDirection] = useState("");
+
+  const handleTerm = (term, direction) => {
+    setTerm(term);
+    setDirection(direction);
+    setCurrentPage(1);
+  };
+
   useEffect(() => {
     getProducts();
-  }, [currentPage]);
+  }, [currentPage, term, direction]);
 
   const productsQuantityPage = 4;
   const skip = (currentPage - 1) * productsQuantityPage;
   const limit = productsQuantityPage;
-  const totalPages = totalProds / productsQuantityPage;
+  const totalPages = Math.ceil(totalProds / productsQuantityPage);
 
   const getProducts = async () => {
     try {
-      const response = await ProductsService.GET_PAGINATION(skip, limit);
+      const response = await ProductsService.GET_PAGINATION(
+        skip,
+        limit,
+        term,
+        direction
+      );
       const { total, products } = response.data;
       setTotalProds(total);
       dispatch({ type: "FETCH_SUCCESS", payload: products });
@@ -56,7 +70,7 @@ export const AllProducts = () => {
         </Typography>
       </Divider>
       <Box display="flex" justifyContent="end">
-        <FilterMenu />
+        <FilterMenu handleTerm={handleTerm} />
       </Box>
       <Grid container justifyContent="center" gap={2} marginTop={3}>
         {state.loading
@@ -64,7 +78,7 @@ export const AllProducts = () => {
               <SkeletonCard key={index} />
             ))
           : state.products.map((prod) => (
-              <Grid item xs={10} sm={5.5} md={3.5} lg={2.5} key={prod._id}>
+              <Grid item xs={5.5} sm={5.5} md={3.5} lg={2.5} key={prod._id}>
                 <CardProductsDefault product={prod} />
               </Grid>
             ))}
